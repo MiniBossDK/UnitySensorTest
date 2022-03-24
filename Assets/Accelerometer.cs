@@ -4,16 +4,15 @@ using UnityEngine;
 
 public class Accelerometer : MonoBehaviour
 {
-    private float threashold = 0.03f;
+    private float threashold = 0.05f;
     void Start()
     {
         Input.gyro.enabled = true;    
     }    
     void Update()
     {
-        
         Quaternion r = GyroToUnityRotation(Input.gyro.attitude);
-        transform.rotation = r * Quaternion.Euler(-90, 0, 0);
+        transform.rotation = r * Quaternion.Euler(-90, -90, 0);
         print(isLayingFlat(r));
     }
 
@@ -27,7 +26,7 @@ public class Accelerometer : MonoBehaviour
         print("x: " + q.x);
         print("y: " + q.y);
         print("z: " + q.z);
-        return (q.x < threashold || q.x > -threashold) &&
-               (q.y < threashold || q.y > -threashold);
+        return (q.x >= threashold && q.x <= -threashold) || 
+               (q.z >= threashold && q.z <= -threashold);
     }
 }
